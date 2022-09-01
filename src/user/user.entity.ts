@@ -6,7 +6,10 @@ export class User extends BaseEntity implements UserInterface {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({
+        type: 'string',
+        nullable: false,
+    })
     email: string;
 
     @Column()
