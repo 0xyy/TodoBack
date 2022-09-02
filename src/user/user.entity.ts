@@ -7,20 +7,33 @@ export class User extends BaseEntity implements UserInterface {
     id: string;
 
     @Column({
-        type: 'string',
+        type: 'varchar',
+        length: 30,
+        unique: true,
         nullable: false,
     })
     email: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255,
+        nullable: false,
+    })
     pwdHash: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 30,
+        nullable: false,
+    })
     name: string;
 
     @Column()
     salt: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+        default: null,
+    })
     currentTokenId: string | null;
 }

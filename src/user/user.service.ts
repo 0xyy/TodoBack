@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponse } from '../types';
 import { User } from './user.entity';
+import { hashPwd } from '../utils/hash-pwd';
+import { randomSalt } from '../utils/random-salt';
 
 @Injectable()
 export class UserService {
@@ -35,6 +37,14 @@ export class UserService {
         }
 
         const user = new User();
+        const salt = randomSalt(128);
+
+        user.email = email;
+        user.pwdHash = hashPwd(password, salt);
+        user.salt = salt;
+        user.name = name;
+
+        await user.save();
 
         return {
             isSuccess: true,
