@@ -17,7 +17,7 @@ export class AuthController {
         @Body() req: AuthLoginRequest,
         @Res() res: Response,
     ): AuthLoginResponse {
-        return null;
+        return this.authService.login(req, res);
     }
 
     @UseGuards(AuthGuard('jwt'))
