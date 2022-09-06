@@ -1,7 +1,8 @@
-import { Contains, IsString, MaxLength, MinLength } from 'class-validator';
+import { Contains, IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class RegisterDto {
     @IsString()
+    @IsEmail()
     @Contains('@')
     @MinLength(4)
     @MaxLength(30)
