@@ -13,7 +13,7 @@ export class AuthController {
     ) {}
 
     @Post('/login')
-    async login(
+    async userLogin(
         @Body() req: AuthLoginRequest,
         @Res() res: Response,
     ): AuthLoginResponse {
@@ -21,11 +21,11 @@ export class AuthController {
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Get('logout')
-    async logout(
+    @Get('/logout')
+    async userLogout(
         @UserObj() user: User,
         @Res() res: Response,
     ): AuthLogoutResponse {
-        return null;
+        return this.authService.logout(user, res);
     }
 }
