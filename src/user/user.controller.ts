@@ -10,7 +10,7 @@ export class UserController {
     ) {}
 
     @Post('/register')
-    async register(
+    async userRegister(
         @Body() registerDto: RegisterDto,
     ): Promise<RegisterResponse> {
         return this.userService.register(registerDto);
