@@ -1,9 +1,9 @@
 export interface TodoInterface {
     id: string;
     todo: string;
-    description: string;
-    isImportant: string;
-    createdAt: Date;
-    expiresIn: Date;
+    description: string | null;
+    isImportant: boolean;
     isFinished: boolean;
+    expiresIn: Date;
+    createdAt: Date;
 }
