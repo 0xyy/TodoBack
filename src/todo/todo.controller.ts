@@ -1,6 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { CreateTodoDto } from './dto/create-todo.dto';
+import { AddTodoDto } from './dto/add-todo.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UserObj } from '../decorators/user-obj.decorator';
+import { User } from '../user/user.entity';
 
 @Controller('todo')
 export class TodoController {
@@ -8,19 +11,21 @@ export class TodoController {
         private readonly todoService: TodoService,
     ) {}
 
-    @Post('/create')
-    async createTodo(
-        @Body() createTodoDto: CreateTodoDto,
+    @UseGuards(AuthGuard('jwt'))
+    @Post('/add')
+    async addTodo(
+        @UserObj() user: User,
+        @Body() createTodoDto: AddTodoDto,
     ) {
-        return this.todoService.create(createTodoDto);
+        return this.todoService.add(user, createTodoDto);
     }
 
-    @Get('/todo')
+    @Get('/')
     async getAllTodo() {
         return null;
     }
 
-    @Get('/todo/:id')
+    @Get('/:id')
     async getOneTodo(
         @Param('id') id: string,
     ) {

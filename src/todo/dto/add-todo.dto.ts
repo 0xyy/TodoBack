@@ -1,6 +1,6 @@
 import { IsBoolean, IsDate, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreateTodoDto {
+export class AddTodoDto {
     @IsString()
     @MaxLength(30)
     todo: string;
