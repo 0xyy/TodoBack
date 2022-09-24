@@ -7,3 +7,17 @@ export interface TodoInterface {
     expiresIn: Date;
     createdAt: Date;
 }
+
+export type AddTodoResponse = {
+    isSuccess: boolean,
+    message: string,
+};
+
+export type RemoveTodoResponse = AddTodoResponse;
+
+export type MarkTodoResponse = {
+    isSuccess: true,
+} | {
+    isSuccess: false,
+    message: string,
+};
