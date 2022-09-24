@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { AddTodoDto } from './dto/add-todo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserObj } from '../decorators/user-obj.decorator';
 import { User } from '../user/user.entity';
-import { AddTodoResponse, RemoveTodoResponse } from '../types';
+import { AddTodoResponse, MarkTodoResponse, RemoveTodoResponse } from '../types';
 
 @Controller('todo')
 export class TodoController {
@@ -35,6 +35,15 @@ export class TodoController {
         @Param('id') id: string,
     ) {
         return null;
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch('/:id')
+    async markTodo(
+        @UserObj() user: User,
+        @Param('id') id: string,
+    ): Promise<MarkTodoResponse> {
+        return this.todoService.mark(user, id);
     }
 
     @UseGuards(AuthGuard('jwt'))

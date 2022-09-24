@@ -4,15 +4,16 @@ import { Todo } from './todo.entity';
 import { User } from '../user/user.entity';
 import { isBeforeToday } from '../utils/is-before-today';
 import { UserService } from '../user/user.service';
-import { AddTodoResponse, RemoveTodoResponse } from '../types';
+import { AddTodoResponse, MarkTodoResponse, RemoveTodoResponse } from '../types';
 
 @Injectable()
 export class TodoService {
     constructor(
-       @Inject(UserService) private userService: UserService,
-    ) {}
+        @Inject(UserService) private userService: UserService,
+    ) {
+    }
 
-    async add(user: User, { todo, description, isImportant, expiresIn }: AddTodoDto): Promise<AddTodoResponse> {
+    async add(user: User, {todo, description, isImportant, expiresIn}: AddTodoDto): Promise<AddTodoResponse> {
         try {
             if (!(await this.userService.userExist(user.id))) {
                 return {
@@ -62,6 +63,50 @@ export class TodoService {
             return {
                 isSuccess: true,
                 message: 'Todo has been added successfully.',
+            };
+        } catch (e) {
+            return {
+                isSuccess: false,
+                message: e.message,
+            };
+        }
+    }
+
+    async mark(user: User, todoId: string): Promise<MarkTodoResponse> {
+        try {
+            if (!(await this.userService.userExist(user.id))) {
+                return {
+                    isSuccess: false,
+                    message: 'User does not exist.',
+                };
+            }
+
+            const todo = await Todo.findOne({
+                where: {
+                    id: todoId,
+                },
+                relations: ['user'],
+            });
+
+            if (!todo) {
+                return {
+                    isSuccess: false,
+                    message: 'You cannot mark todo that does not exist.',
+                };
+            }
+
+            if (user.id !== todo.user.id) {
+                return {
+                    isSuccess: false,
+                    message: 'You cannot mark todo of the other user.',
+                };
+            }
+
+            todo.isFinished = !todo.isFinished;
+            await todo.save();
+
+            return {
+                isSuccess: true,
             };
         } catch (e) {
             return {
