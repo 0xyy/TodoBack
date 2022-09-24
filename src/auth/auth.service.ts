@@ -5,7 +5,7 @@ import { sign } from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
 import { User } from '../user/user.entity';
 import { hashPwd } from '../utils/hash-pwd';
-import { AuthLoginRequest } from '../types';
+import { AuthLoginRequest, AuthLoginResponse, AuthLogoutResponse } from '../types';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +42,7 @@ export class AuthService {
         return token;
     }
 
-    async login(req: AuthLoginRequest, res: Response) {
+    async login(req: AuthLoginRequest, res: Response): AuthLoginResponse  {
         try {
             if (!req.email.includes('@')) {
                 return res.json({
@@ -101,7 +101,7 @@ export class AuthService {
         }
     }
 
-    async logout(user: User, res: Response) {
+    async logout(user: User, res: Response): AuthLogoutResponse {
         try {
             user.currentTokenId = null;
             await user.save();
