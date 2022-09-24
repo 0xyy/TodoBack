@@ -52,4 +52,14 @@ export class UserService {
             name,
         };
     }
+
+    async userExist(id: string): Promise<boolean> {
+        const user = await User.findOne({
+            where: {
+                id,
+            },
+        });
+
+        return !!user;
+    }
 }
