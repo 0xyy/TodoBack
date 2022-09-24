@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TodoInterface } from '../types';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Todo extends BaseEntity implements TodoInterface {
@@ -36,4 +37,7 @@ export class Todo extends BaseEntity implements TodoInterface {
         default: () => 'CURRENT_TIMESTAMP()',
     })
     createdAt: Date;
+
+    @ManyToOne(type => User, entity => entity.id)
+    user: User;
 }
