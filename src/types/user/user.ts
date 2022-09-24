@@ -14,4 +14,4 @@ export type RegisterResponse = {
     isSuccess: true,
     name: string,
     email: string,
-}
+};
