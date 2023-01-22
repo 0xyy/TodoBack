@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserInterface } from '../types';
+import { Todo } from '../todo/todo.entity';
 
 @Entity()
 export class User extends BaseEntity implements UserInterface {
@@ -36,4 +37,7 @@ export class User extends BaseEntity implements UserInterface {
         default: null,
     })
     currentTokenId: string | null;
+
+    @OneToMany(type => Todo, todo => todo.user)
+    todos: Todo[];
 }

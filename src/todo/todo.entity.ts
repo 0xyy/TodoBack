@@ -38,6 +38,9 @@ export class Todo extends BaseEntity implements TodoInterface {
     })
     createdAt: Date;
 
-    @ManyToOne(type => User, entity => entity.id)
+    @Column()
+    userId: number;
+
+    @ManyToOne(type => User, user => user.todos)
     user: User;
 }
