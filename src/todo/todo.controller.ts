@@ -4,7 +4,7 @@ import { AddTodoDto } from './dto/add-todo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserObj } from '../decorators/user-obj.decorator';
 import { User } from '../user/user.entity';
-import { AddTodoResponse, MarkTodoResponse, RemoveTodoResponse } from '../types';
+import { AddTodoResponse, ListTodosResponse, MarkTodoResponse, RemoveTodoResponse } from '../types';
 
 @Controller('todo')
 export class TodoController {
@@ -23,18 +23,10 @@ export class TodoController {
 
     @UseGuards(AuthGuard('jwt'))
     @Get('/')
-    async getAllUserTodo(
+    async listAllUserTodos(
         @UserObj() user: User,
-    ) {
-        return null;
-    }
-
-    @UseGuards(AuthGuard('jwt'))
-    @Get('/:id')
-    async getOneTodo(
-        @Param('id') id: string,
-    ) {
-        return null;
+    ): Promise<ListTodosResponse> {
+        return this.todoService.listAll(user);
     }
 
     @UseGuards(AuthGuard('jwt'))
