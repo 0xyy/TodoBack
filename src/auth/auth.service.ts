@@ -92,6 +92,7 @@ export class AuthService {
                 .json({
                     isSuccess: true,
                     userId: user.id,
+                    userName: user.name,
                 });
         } catch (e) {
             return res.json({
