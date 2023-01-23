@@ -1,4 +1,5 @@
 import { Todo } from '../../todo/todo.entity';
+import { AddTodoDto } from '../../todo/dto/add-todo.dto';
 
 export interface TodoInterface {
     id: string;
@@ -9,6 +10,8 @@ export interface TodoInterface {
     expiresIn: Date;
     createdAt: Date;
 }
+
+export type AddTodoRequest = AddTodoDto;
 
 export type AddTodoResponse = {
     isSuccess: boolean,

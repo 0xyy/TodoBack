@@ -1,3 +1,5 @@
+import { RegisterDto } from '../../user/dto/register.dto';
+
 export interface UserInterface {
     id: string;
     email: string;
@@ -6,6 +8,8 @@ export interface UserInterface {
     salt: string;
     currentTokenId: string | null;
 }
+
+export type RegisterRequest = RegisterDto;
 
 export type RegisterResponse = {
     isSuccess: false,
